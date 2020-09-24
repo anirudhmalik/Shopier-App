@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
-import ShopCategoryCard from "../components/ShopCategoryCard";
+import AppShopCategoryCard from "../components/AppShopCategoryCard";
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
@@ -26,7 +26,7 @@ const items = [
   },
 ];
 
-function ShopCategory(props) {
+function ShopCategory({ navigation }) {
   return (
     <ImageBackground
       resizeMode="cover"
@@ -39,16 +39,34 @@ function ShopCategory(props) {
           <AppText style={styles.appText}>Your Shop Category :</AppText>
         </View>
         <View style={styles.container}>
-          <ShopCategoryCard items={items}></ShopCategoryCard>
-          <ShopCategoryCard items={items}></ShopCategoryCard>
+          <AppShopCategoryCard
+            title="Ration"
+            onPress={() => navigation.navigate("Location")}
+          ></AppShopCategoryCard>
+          <AppShopCategoryCard
+            title="Sweets"
+            onPress={() => navigation.navigate("Location")}
+          ></AppShopCategoryCard>
         </View>
         <View style={styles.container}>
-          <ShopCategoryCard items={items}></ShopCategoryCard>
-          <ShopCategoryCard items={items}></ShopCategoryCard>
+          <AppShopCategoryCard
+            title="Crockery"
+            onPress={() => navigation.navigate("Location")}
+          ></AppShopCategoryCard>
+          <AppShopCategoryCard
+            title="Medical"
+            onPress={() => navigation.navigate("Location")}
+          ></AppShopCategoryCard>
         </View>
         <View style={styles.container}>
-          <ShopCategoryCard items={items}></ShopCategoryCard>
-          <ShopCategoryCard items={items}></ShopCategoryCard>
+          <AppShopCategoryCard
+            title="Clothing"
+            onPress={() => navigation.navigate("Register")}
+          ></AppShopCategoryCard>
+          <AppShopCategoryCard
+            title="Mobile"
+            onPress={() => navigation.navigate("Register")}
+          ></AppShopCategoryCard>
         </View>
       </Screen>
     </ImageBackground>

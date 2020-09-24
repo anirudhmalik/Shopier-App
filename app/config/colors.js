@@ -10,4 +10,6 @@ export default {
   green: "#27ae60",
   blue: "#1e90ff",
   transparent: "#ffffff00",
+  lightest: "#D3D3D3",
+  transparent1: "#fffffff0",
 };

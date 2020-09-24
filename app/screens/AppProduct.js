@@ -6,7 +6,7 @@ import ProductList from "../components/ProductList";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 
-function AppProduct(props) {
+function AppProduct({ route }) {
   return (
     <>
       <LinearGradient
@@ -18,7 +18,7 @@ function AppProduct(props) {
       <View style={styles.text}>
         <AppText>Products</AppText>
       </View>
-      <ProductList></ProductList>
+      <ProductList productId={route.params.id}></ProductList>
     </>
   );
 }

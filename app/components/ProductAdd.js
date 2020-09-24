@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -7,79 +7,42 @@ import {
   Modal,
   FlatList,
 } from "react-native";
+import cache from "../utility/cache";
 import colors from "../config/colors";
 import ProductPicker from "./ProductPicker";
 import AppText from "./AppText";
 import CloseIcon from "./CloseIcon";
-const items = [
-  {
-    label: "Table",
-    uri: "../components/logo.png",
-    cost: "$299",
-    quantity: "2pc",
-    value: 1,
-  },
-  {
-    label: "Chair",
-    uri: "../components/logo.png",
-    cost: "$409",
-    quantity: "5pc",
-    value: 2,
-  },
-  {
-    label: "Soffa",
-    uri: "../components/logo.png",
-    cost: "$500",
-    quantity: "9pc",
-    value: 3,
-  },
-  {
-    label: "Chair",
-    uri: "../components/logo.png",
-    cost: "$409",
-    quantity: "5pc",
-    value: 4,
-  },
-  {
-    label: "Soffa",
-    uri: "../components/logo.png",
-    cost: "$500",
-    quantity: "9pc",
-    value: 5,
-  },
-  {
-    label: "Chair",
-    uri: "../components/logo.png",
-    cost: "$409",
-    quantity: "5pc",
-    value: 6,
-  },
-  {
-    label: "Soffa",
-    uri: "../components/logo.png",
-    cost: "$500",
-    quantity: "9pc",
-    value: 7,
-  },
-  {
-    label: "Chair",
-    uri: "../components/logo.png",
-    cost: "$409",
-    quantity: "5pc",
-    value: 8,
-  },
-  {
-    label: "Soffa",
-    uri: "../components/logo.png",
-    cost: "$500",
-    quantity: "9pc",
-    value: 9,
-  },
-];
+import apiCache from "../utility/apiCache";
 
-function ProductAdd(props) {
+function ProductAdd({ productKey }) {
+  const endPoint = "/products";
   const [modalVisible, setModalVisible] = useState(false);
   const [product, setProduct] = useState([]);
+  const [items, setItems] = useState();
+  useEffect(() => {
+    getProduct();
+  }, []);
+  const addProduct = async (id, object) => {
+    await cache.store(id, object);
+    const data = await cache.get(id);
+    setProduct([...product, data]);
+    await apiCache.post(endPoint, id, { itemId: object.id });
+  };
+  const getProduct = async () => {
+    //const data = await cache.getAll(productKey);
+    //setProduct(data);
+    const data = await apiCache.getData(endPoint, productKey);
+    if (data != null) {
+      setProduct(data);
+    }
+    const data1 = await apiCache.getData("/productlist");
+    setItems(data1);
+  };
+
+  const removeProduct = async (id) => {
+    await cache.remove(id);
+    await apiCache.deleteData(endPoint, id);
+  };
 
   return (
     <>
@@ -91,24 +54,26 @@ function ProductAdd(props) {
           <View style={styles.list}>
             {product.map((item) => (
               <>
-                <ProductPicker
-                  item={item}
-                  key={item.value.toString()}
-                  uri={require("../assets/logo.png")}
-                  onPress={() => console.log(item.label)}
-                  longPress={() =>
-                    setProduct(product.filter((data) => data !== item))
-                  }
-                />
-                <View style={styles.close} key={item.value.toString()}>
-                  <CloseIcon
-                    name={"window-close"}
-                    iconColor={colors.green}
-                    size={35}
-                    onPress={() =>
-                      setProduct(product.filter((data) => data !== item))
-                    }
-                  ></CloseIcon>
+                <View key={item.value}>
+                  <ProductPicker
+                    key={item.value + "product"}
+                    item={item}
+                    uri={require("../assets/logo.png")}
+                    onPress={() => console.log(item.label)}
+                  />
+
+                  <View style={styles.close} key={item.id}>
+                    <CloseIcon
+                      key={item.id + "icon"}
+                      name={"window-close"}
+                      iconColor={colors.green}
+                      size={35}
+                      onPress={() => {
+                        setProduct(product.filter((data) => data !== item));
+                        removeProduct(productKey + item.value);
+                      }}
+                    ></CloseIcon>
+                  </View>
                 </View>
               </>
             ))}
@@ -122,22 +87,31 @@ function ProductAdd(props) {
           </View>
         </>
       </TouchableHighlight>
-      <Modal visible={modalVisible}>
-        <FlatList
-          data={items}
-          keyExtractor={(item) => item.value.toString()}
-          style={styles.list}
-          renderItem={({ item }) => (
-            <ProductPicker
-              item={item}
-              uri={require("../assets/logo.png")}
-              onPress={() => {
-                setModalVisible(false);
-                setProduct([...product, item]);
-              }}
-            ></ProductPicker>
-          )}
-        ></FlatList>
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <>
+          <View style={styles.text}>
+            <AppText>Tap To Add Products</AppText>
+          </View>
+          <FlatList
+            data={items}
+            keyExtractor={(item) => item.value.toString()}
+            style={styles.list}
+            renderItem={({ item }) => (
+              <ProductPicker
+                item={item}
+                uri={require("../assets/logo.png")}
+                onPress={() => {
+                  setModalVisible(false);
+                  addProduct(productKey + item.value, item);
+                }}
+              ></ProductPicker>
+            )}
+          ></FlatList>
+        </>
       </Modal>
     </>
   );
@@ -164,6 +138,12 @@ const styles = StyleSheet.create({
     width: 70,
   },
   list: {
+    backgroundColor: colors.light,
+  },
+  text: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
     backgroundColor: colors.light,
   },
 });

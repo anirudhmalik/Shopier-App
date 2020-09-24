@@ -4,7 +4,7 @@ import { View, StyleSheet, FlatList, Button, ScrollView } from "react-native";
 import colors from "../config/colors";
 import ProductAdd from "./ProductAdd";
 
-function ProductList(props) {
+function ProductList({ productId }) {
   const scrollView = useRef();
 
   return (
@@ -14,7 +14,7 @@ function ProductList(props) {
         onContentSizeChange={() => scrollView.current.scrollToEnd()}
         showsVerticalScrollIndicator={false}
       >
-        <ProductAdd></ProductAdd>
+        <ProductAdd productKey={productId + "product"}></ProductAdd>
       </ScrollView>
     </>
   );

@@ -1,40 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AppText from "./AppText";
 import colors from "../config/colors";
 import SubCategoryCard from "./SubCategoryCard";
 import ProductCard from "./ProductCard";
+import cache from "../utility/cache";
 
-function SubCategoryList({ category = "Furniture" }) {
+function SubCategoryList({ categoryId, navigation }) {
+  const [item, setItem] = useState([]);
+  useEffect(() => {
+    getTitle();
+  }, []);
+  const getTitle = async () => {
+    const data = await cache.get(categoryId);
+    setItem(data);
+  };
   return (
     <>
       <LinearGradient
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
-        colors={["#27ae60", "#1e90ff"]}
+        colors={[colors.green, colors.blue]}
         style={styles.container}
       >
         <View style={styles.topview}>
           <Image style={styles.image} source={require("../assets/logo.png")} />
           <View style={styles.title}>
-            <AppText style={styles.titleText}>{category}</AppText>
+            <AppText style={styles.titleText}>{item.label}</AppText>
             <AppText style={styles.subTitleText}>
               Chair,Table,Almira....
             </AppText>
           </View>
         </View>
         <View style={styles.subcategorycard}>
-          <SubCategoryCard></SubCategoryCard>
+          <SubCategoryCard
+            categoryId={categoryId}
+            navigation={navigation}
+          ></SubCategoryCard>
         </View>
       </LinearGradient>
 
       <View style={styles.categoryCard}>
-        <ProductCard title="Trending Products"></ProductCard>
+        <ProductCard
+          title="Trending Products"
+          productKey={"trndPrdct"}
+        ></ProductCard>
       </View>
       <View style={styles.categoryCard}>
-        <ProductCard title="Best Deals"></ProductCard>
+        <ProductCard title="Best Deals" productKey={"bstDls"}></ProductCard>
       </View>
+      <View style={{ height: 100, backgroundColor: colors.light }} />
     </>
   );
 }
@@ -66,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleText: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "700",
     paddingLeft: 30,
     color: colors.white,

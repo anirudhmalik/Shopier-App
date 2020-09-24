@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -9,8 +9,14 @@ import {
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
+import cache from "../utility/cache";
 
-function UserSelector(props) {
+function UserSelector({ navigation }) {
+  const key = "user";
+  const setUser = async (value) => {
+    await cache.store(key, value);
+  };
+
   return (
     <ImageBackground
       resizeMode="cover"
@@ -25,14 +31,21 @@ function UserSelector(props) {
         <TouchableHighlight
           underlayColor={colors.light}
           style={styles.container}
-          onPress={() => console.log("Seller Tapped")}
+          onPress={() => {
+            setUser("seller");
+            navigation.navigate("Welcome");
+          }}
         >
           <AppText style={styles.text}>Seller</AppText>
         </TouchableHighlight>
+
         <TouchableHighlight
           underlayColor={colors.light}
           style={styles.container}
-          onPress={() => console.log("Buyer Tapped")}
+          onPress={() => {
+            setUser("buyer");
+            navigation.navigate("Welcome");
+          }}
         >
           <AppText style={styles.text}>Buyer</AppText>
         </TouchableHighlight>

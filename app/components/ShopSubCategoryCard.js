@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -10,11 +10,46 @@ import colors from "../config/colors";
 import AppText from "./AppText";
 import CategoryList from "./CategoryList";
 import CloseIcon from "./CloseIcon";
+import cache from "../utility/cache";
+import apiCache from "../utility/apiCache";
 
-function ShopSubCategoryCard({ image, style, items }) {
+function ShopSubCategoryCard({
+  navigation,
+  style,
+  items,
+  categoryId,
+  subCategoryId,
+}) {
+  const endPoint = "/subcategories";
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
-
+  useEffect(() => {
+    getSubCategory();
+  }, []);
+  const getSubCategory = async () => {
+    //const data = await cache.get(categoryId + subCategoryId);
+    //setSelectedItem(data);
+    const data = await apiCache.getData(
+      "/subcategories",
+      categoryId + subCategoryId
+    ); //fetching data from server
+    if (data != null) {
+      setSelectedItem(data[0]);
+      //await cache.store(categoryId + subCategoryId, data[0]); //cache data locally
+    }
+  };
+  const setSubCategory = async (value) => {
+    await cache.store(categoryId + subCategoryId, value);
+    const data = await cache.get(categoryId + subCategoryId);
+    setSelectedItem(data);
+    await apiCache.post(endPoint, categoryId + subCategoryId, {
+      itemId: value.id,
+    });
+  };
+  const removeSubCategory = async () => {
+    await cache.removeBranch(categoryId + subCategoryId);
+    await apiCache.deleteData(endPoint, categoryId + subCategoryId);
+  };
   return (
     <>
       <TouchableHighlight
@@ -22,32 +57,47 @@ function ShopSubCategoryCard({ image, style, items }) {
         style={[styles.container, style]}
         onPress={() => {
           selectedItem ? setModalVisible(false) : setModalVisible(true);
-          selectedItem ? console.log(selectedItem.label) : "";
+          selectedItem
+            ? navigation.navigate("appProduct", {
+                id: categoryId + subCategoryId,
+              })
+            : "";
         }}
       >
-        <View style={styles.containerview}>
-          <CloseIcon
-            name={"window-close"}
-            iconColor={colors.green}
-            size={selectedItem ? 25 : 0}
-            onPress={() => setSelectedItem()}
-          ></CloseIcon>
-          <Image
-            style={styles.image}
-            source={
-              selectedItem
-                ? require("../assets/logo.png")
-                : require("../assets/add.png")
-            }
-          />
-          <AppText style={styles.title}>
-            {selectedItem ? selectedItem.label : "Add SubCategories"}
-          </AppText>
-        </View>
+        <>
+          <View style={styles.close}>
+            <CloseIcon
+              name={"window-close"}
+              iconColor={colors.green}
+              size={selectedItem ? 35 : 0}
+              onPress={() => {
+                removeSubCategory();
+                setSelectedItem();
+              }}
+            ></CloseIcon>
+          </View>
+          <View style={styles.containerview}>
+            <Image
+              style={styles.image}
+              source={
+                selectedItem
+                  ? require("../assets/logo.png")
+                  : require("../assets/add.png")
+              }
+            />
+            <AppText style={styles.title}>
+              {selectedItem ? selectedItem.label : "Add SubCategories"}
+            </AppText>
+          </View>
+        </>
       </TouchableHighlight>
-      <Modal visible={modalVisible} animationType="slide">
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
         <CategoryList
-          onSelectedItem={(value) => setSelectedItem(value)}
+          onSelectedItem={(value) => setSubCategory(value)}
           onModalVisible={(value) => setModalVisible(value)}
           items={items}
         ></CategoryList>
@@ -57,6 +107,11 @@ function ShopSubCategoryCard({ image, style, items }) {
 }
 
 const styles = StyleSheet.create({
+  close: {
+    width: 114,
+    marginTop: 2,
+    position: "absolute",
+  },
   container: {
     width: 170,
     height: 150,
@@ -80,7 +135,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     textAlign: "center",
     fontWeight: "500",
-    fontSize: 10,
+    fontSize: 14,
   },
 });
 

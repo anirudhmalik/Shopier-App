@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Story from "./Story";
@@ -6,28 +6,21 @@ import Banner from "./Banner";
 import colors from "../config/colors";
 import CategoryCard from "./CategoryCard";
 import ProductCard from "./ProductCard";
-const items = [
-  {
-    icon: "amazon",
-    label: "Clothing",
-    uri: "../components/logo.png",
-    value: 1,
-  },
-  {
-    icon: "chair-school",
-    label: "Furniture",
-    uri: "../components/logo.png",
-    value: 2,
-  },
-  { icon: "basket", label: "Grocery", uri: "../components/logo.png", value: 3 },
-  {
-    icon: "cake",
-    label: "Confectionery",
-    uri: "../components/logo.png",
-    value: 0,
-  },
-];
-function BuilderAppList(props) {
+import apiCache from "../utility/apiCache";
+
+function BuilderAppList({ navigation }) {
+  const endPoint = "/categorylist";
+  const [refresh, setRefresh] = useState(true);
+  const [items, setItems] = useState();
+
+  useEffect(() => {
+    getCategory();
+  }, []);
+  const getCategory = async () => {
+    const data1 = await apiCache.getData(endPoint);
+    setItems(data1);
+  };
+
   return (
     <>
       <LinearGradient
@@ -37,31 +30,38 @@ function BuilderAppList(props) {
         style={styles.container}
       >
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={{ flexDirection: "row" }}>
-            <Story iconName="plus" items={items}></Story>
-            <Story iconName="plus" items={items}></Story>
-            <Story iconName="plus" items={items}></Story>
-            <Story iconName="plus" items={items}></Story>
-            <Story iconName="plus" items={items}></Story>
-            <Story iconName="plus" items={items}></Story>
-            <Story iconName="plus" items={items}></Story>
-            <Story iconName="plus" items={items}></Story>
-          </View>
+          {refresh ? (
+            <View style={{ flexDirection: "row" }}>
+              <Story navigation={navigation} id={"category1"}></Story>
+              <Story navigation={navigation} id={"category2"}></Story>
+              <Story navigation={navigation} id={"category3"}></Story>
+              <Story navigation={navigation} id={"category4"}></Story>
+              <Story navigation={navigation} id={"category5"}></Story>
+              <Story navigation={navigation} id={"category6"}></Story>
+            </View>
+          ) : null}
         </ScrollView>
-
         <View style={styles.banner}>
           <Banner></Banner>
         </View>
       </LinearGradient>
       <View style={styles.categoryCard}>
-        <CategoryCard items={items}></CategoryCard>
+        <CategoryCard
+          items={items}
+          navigation={navigation}
+          setRefresh={(value) => setRefresh(value)}
+        ></CategoryCard>
       </View>
       <View style={styles.categoryCard}>
-        <ProductCard title="Trending Products"></ProductCard>
+        <ProductCard
+          title="Trending Products"
+          productKey={"trndPrdct"}
+        ></ProductCard>
       </View>
       <View style={styles.categoryCard}>
-        <ProductCard title="Best Deals"></ProductCard>
+        <ProductCard title="Best Deals" productKey={"bstDls"}></ProductCard>
       </View>
+      <View style={{ height: 100, backgroundColor: colors.light }} />
     </>
   );
 }

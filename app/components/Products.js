@@ -1,34 +1,21 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableHighlight,
-  Image,
-  Text,
-} from "react-native";
+import { View, StyleSheet, TouchableHighlight, Image } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-function Products({
-  onPress,
-  cost = "$0",
-  name = "null",
-  quantity = "null",
-  image,
-  style,
-}) {
+function Products({ onPress, item, image, style }) {
   return (
     <TouchableHighlight
       underlayColor={colors.light}
-      style={[styles.container, style]}
+      style={styles.container}
       onPress={onPress}
     >
       <View style={styles.containerview}>
         <Image style={styles.image} source={image} />
         <View style={styles.allText}>
-          <AppText style={styles.cost}>{cost}</AppText>
-          <AppText style={styles.name}>{name}</AppText>
-          <AppText style={styles.quantity}>{quantity}</AppText>
+          <AppText style={styles.cost}>{item.cost}</AppText>
+          <AppText style={styles.name}>{item.label}</AppText>
+          <AppText style={styles.quantity}>{item.quantity}</AppText>
         </View>
         <View style={styles.button}>
           <AppText style={styles.addText}>ADD</AppText>

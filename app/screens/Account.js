@@ -1,12 +1,25 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useContext } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  AsyncStorage,
+} from "react-native";
 import AppAccount from "../components/AppAccount";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
 import AppBottomBar from "../components/AppBottomBar";
+import AuthContext from "../auth/context";
+import authStorage from "../auth/storage";
 
-function Account(props) {
+function Account({ navigation }) {
+  const authContext = useContext(AuthContext);
+  const handleLogout = async () => {
+    authContext.setUser(null);
+    authStorage.removeToken();
+    await AsyncStorage.clear();
+  };
   return (
     <>
       <View style={styles.container}>
@@ -18,12 +31,15 @@ function Account(props) {
           <AppText style={styles.text}>Security</AppText>
           <AppText style={styles.text}>Privacy</AppText>
         </View>
-        <View style={styles.logout}>
-          <AppText style={{ color: colors.medium }}>Logout</AppText>
-          <Icon name="power" iconColor={colors.medium}></Icon>
-        </View>
+        <TouchableWithoutFeedback onPress={handleLogout}>
+          <View style={styles.logout}>
+            <AppText style={{ color: colors.medium }}>Logout</AppText>
+            <Icon name="power" iconColor={colors.medium}></Icon>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
       <AppBottomBar
+        navigation={navigation}
         acc_clr={colors.green}
         odr_clr={colors.black}
         hm_clr={colors.black}

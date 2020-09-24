@@ -8,9 +8,9 @@ import {
 import AppText from "./AppText";
 import colors from "../config/colors";
 
-function ProductPicker({ item, onPress, longPress, uri }) {
+function ProductPicker({ item, onPress, uri }) {
   return (
-    <TouchableWithoutFeedback onPress={onPress} onLongPress={longPress}>
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
         <Image style={styles.image} source={uri} />
         <View>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import BuilderAppBar from "../components/BuilderAppBar";
 import BuilderAppList from "../components/BuilderAppList";
@@ -6,20 +6,17 @@ import Screen from "../components/Screen";
 import AppBottomBar from "../components/AppBottomBar";
 import colors from "../config/colors";
 
-function AppBuilder(props) {
+function AppBuilder({ navigation }) {
   return (
     <>
-      <BuilderAppBar
-        shopname="Malik Grocery"
-        address="GolfLink,GZb"
-      ></BuilderAppBar>
-
+      <BuilderAppBar></BuilderAppBar>
       <Screen style={styles.container}>
-        <ScrollView>
-          <BuilderAppList></BuilderAppList>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <BuilderAppList navigation={navigation}></BuilderAppList>
         </ScrollView>
       </Screen>
       <AppBottomBar
+        navigation={navigation}
         acc_clr={colors.black}
         hm_clr={colors.green}
         odr_clr={colors.black}

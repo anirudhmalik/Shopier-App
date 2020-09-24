@@ -1,69 +1,89 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import colors from "../config/colors";
 import ShopSubCategoryCard from "./ShopSubCategoryCard";
-const items = [
-  {
-    label: "Table",
-    uri: "../components/logo.png",
-    value: 1,
-  },
-  {
-    label: "Chair",
-    uri: "../components/logo.png",
-    value: 2,
-  },
-  { label: "Soffa", uri: "../components/logo.png", value: 3 },
-  {
-    label: "Almira",
-    uri: "../components/logo.png",
-    value: 0,
-  },
-];
+import apiCache from "../utility/apiCache";
 
-function SubCategoryCard({ onPress, style }) {
+function SubCategoryCard({ navigation, categoryId }) {
+  const endPoint = "/subcategorylist";
+  const [items, setItems] = useState();
+
+  useEffect(() => {
+    getCategory();
+  }, []);
+  const getCategory = async () => {
+    const data1 = await apiCache.getData(endPoint);
+    setItems(data1);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
         <ShopSubCategoryCard
           items={items}
           style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory1"}
         ></ShopSubCategoryCard>
         <ShopSubCategoryCard
           items={items}
           style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory2"}
         ></ShopSubCategoryCard>
         <ShopSubCategoryCard
           items={items}
           style={styles.subcateogry}
-        ></ShopSubCategoryCard>
-      </View>
-      <View style={styles.container2}>
-        <ShopSubCategoryCard
-          items={items}
-          style={styles.subcateogry}
-        ></ShopSubCategoryCard>
-        <ShopSubCategoryCard
-          items={items}
-          style={styles.subcateogry}
-        ></ShopSubCategoryCard>
-        <ShopSubCategoryCard
-          items={items}
-          style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory3"}
         ></ShopSubCategoryCard>
       </View>
       <View style={styles.container2}>
         <ShopSubCategoryCard
           items={items}
           style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory4"}
         ></ShopSubCategoryCard>
         <ShopSubCategoryCard
           items={items}
           style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory5"}
         ></ShopSubCategoryCard>
         <ShopSubCategoryCard
           items={items}
           style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory6"}
+        ></ShopSubCategoryCard>
+      </View>
+      <View style={styles.container2}>
+        <ShopSubCategoryCard
+          items={items}
+          style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory7"}
+        ></ShopSubCategoryCard>
+        <ShopSubCategoryCard
+          items={items}
+          style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory8"}
+        ></ShopSubCategoryCard>
+        <ShopSubCategoryCard
+          items={items}
+          style={styles.subcateogry}
+          navigation={navigation}
+          categoryId={categoryId}
+          subCategoryId={"subcategory9"}
         ></ShopSubCategoryCard>
       </View>
     </View>

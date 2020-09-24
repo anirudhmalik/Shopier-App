@@ -3,38 +3,56 @@ import { View, StyleSheet } from "react-native";
 import ShopCategoryCard from "./ShopCategoryCard";
 import colors from "../config/colors";
 
-function CategoryCard({ items }) {
+function CategoryCard({ items, navigation, setRefresh }) {
   return (
     <>
       <View style={styles.container}>
         <View style={styles.container2}>
           <ShopCategoryCard
+            setRefresh={setRefresh}
             style={styles.shopcategory}
             items={items}
+            navigation={navigation}
+            id={"category1"}
           ></ShopCategoryCard>
           <ShopCategoryCard
+            setRefresh={setRefresh}
             style={styles.shopcategory}
             items={items}
-          ></ShopCategoryCard>
-        </View>
-        <View style={styles.container2}>
-          <ShopCategoryCard
-            style={styles.shopcategory}
-            items={items}
-          ></ShopCategoryCard>
-          <ShopCategoryCard
-            style={styles.shopcategory}
-            items={items}
+            navigation={navigation}
+            id={"category2"}
           ></ShopCategoryCard>
         </View>
         <View style={styles.container2}>
           <ShopCategoryCard
+            setRefresh={setRefresh}
             style={styles.shopcategory}
             items={items}
+            navigation={navigation}
+            id={"category3"}
           ></ShopCategoryCard>
           <ShopCategoryCard
+            setRefresh={setRefresh}
             style={styles.shopcategory}
             items={items}
+            navigation={navigation}
+            id={"category4"}
+          ></ShopCategoryCard>
+        </View>
+        <View style={styles.container2}>
+          <ShopCategoryCard
+            setRefresh={setRefresh}
+            style={styles.shopcategory}
+            items={items}
+            navigation={navigation}
+            id={"category5"}
+          ></ShopCategoryCard>
+          <ShopCategoryCard
+            setRefresh={setRefresh}
+            style={styles.shopcategory}
+            items={items}
+            navigation={navigation}
+            id={"category6"}
           ></ShopCategoryCard>
         </View>
       </View>
