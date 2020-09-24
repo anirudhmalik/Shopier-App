@@ -1,0 +1,23 @@
+[0721/143603.309:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0721/152236.795:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0721/160806.909:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0721/163926.591:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0721/204734.767:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0721/205137.313:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0721/210112.463:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0721/210339.976:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0722/085629.823:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0722/090023.335:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0722/090138.942:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0722/090322.739:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0722/092229.497:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0722/142821.616:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0723/093039.797:ERROR:settings.cc(401)] Settings magic is not 1129342067
+[0723/093039.916:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0725/095415.400:ERROR:settings.cc(401)] Settings magic is not 1129342067
+[0725/095415.431:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0725/095942.179:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0726/130235.444:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0726/160819.291:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0727/101059.882:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
+[0728/082543.784:ERROR:crashpad.cc(153)] Failed to get activation factory for IPlatformDiagnosticsAndUsageDataSettingsStatics
